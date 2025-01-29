@@ -1,4 +1,9 @@
+import 'package:cab_booking_app/widgets/notificationscreen.dart';
+import 'package:cab_booking_app/widgets/paymentmethod.dart';
+import 'package:cab_booking_app/widgets/peoplenamescren.dart';
+import 'package:cab_booking_app/widgets/walletscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 class MyAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -88,22 +93,30 @@ class MyAccountScreen extends StatelessWidget {
                   _buildAccountOption(
                     icon: Icons.payment,
                     title: "Payment",
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(()=>PaymentMethodApp());
+                    },
                   ),
                   _buildAccountOption(
                     icon: Icons.notifications,
                     title: "Notification",
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(()=>NotificationScreen());
+                    },
                   ),
                   _buildAccountOption(
                     icon: Icons.info,
                     title: "Information",
-                    onTap: () {},
+                    onTap: () {
+                     Get.to(()=>Riderbook()); 
+                    },
                   ),
                   _buildAccountOption(
                     icon: Icons.lock,
                     title: "Security",
-                    onTap: () {},
+                    onTap: () {
+                     Get.to(()=>WalletScreen());  
+                    },
                   ),
                 ],
               ),
@@ -112,25 +125,25 @@ class MyAccountScreen extends StatelessWidget {
         ),
       ),
       // Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xFF002144),
-        unselectedItemColor: Colors.grey,
-        currentIndex: 0, // Active tab index
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: "",
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   selectedItemColor: Color(0xFF002144),
+      //   unselectedItemColor: Colors.grey,
+      //   currentIndex: 0, // Active tab index
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: "",
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.person),
+      //       label: "",
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.notifications),
+      //       label: "",
+      //     ),
+      //   ],
+      // ),
     );
   }
 

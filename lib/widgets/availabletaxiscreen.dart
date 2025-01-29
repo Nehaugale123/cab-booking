@@ -1,4 +1,6 @@
+import 'package:cab_booking_app/widgets/promocode_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AvailableTaxisScreen extends StatelessWidget {
   final List<Map<String, String>> taxis = [
@@ -108,7 +110,7 @@ class AvailableTaxisScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 16),
                 ),
                 onPressed: () {
-                  // Add booking functionality
+                 Get.to(()=>PromoCodeScreen());
                 },
                 child: Text(
                   "Book Now",

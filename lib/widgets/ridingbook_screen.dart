@@ -1,26 +1,60 @@
+import 'package:cab_booking_app/widgets/historytile.dart';
+import 'package:cab_booking_app/widgets/setdestination_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class RideBookingScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: RideBookingScreen(),
-    );
-  }
+  _RideBookingScreenState createState() => _RideBookingScreenState();
 }
 
-class RideBookingScreen extends StatelessWidget {
+class _RideBookingScreenState extends State<RideBookingScreen> {
+  final MapController _mapController = MapController();
+  List<Marker> _markers = [];
+  final TextEditingController _startController = TextEditingController();
+  final TextEditingController _endController = TextEditingController();
+  int _currentIndex = 0;
+
+  void _onMapTap(TapPosition tapPosition, LatLng point) {
+    setState(() {
+      _markers.add(
+        Marker(
+          width: 80.0,
+          height: 80.0,
+          point: point,
+          child: Icon(
+            Icons.location_on,
+            color: Colors.red,
+            size: 40,
+          ),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Map background
-          Container(
-            color: Colors.grey[300], // Replace this with your map widget later
+          // Map Widget
+          FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+              initialCenter: LatLng(18.559004, 73.786766),
+              initialZoom: 13.0,
+              onTap: _onMapTap,
+            ),
+            children: [
+              TileLayer(
+                urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                userAgentPackageName: 'com.example.map_sample',
+              ),
+              MarkerLayer(
+                markers: _markers,
+              ),
+            ],
           ),
           // White Card UI
           Align(
@@ -71,30 +105,41 @@ class RideBookingScreen extends StatelessWidget {
                   Divider(color: Colors.grey[300]),
                   SizedBox(height: 16),
                   // Drop Off Section
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Icons.location_pin, color: Colors.red, size: 12),
-                      SizedBox(width: 8),
-                      Text(
-                        "Pick Off",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate to SetDestinationPage when tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SetDestinationScreen(),
                         ),
-                      ),
-                      Spacer(),
-                      Container(
-                        height: 32,
-                        width: 32,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(8),
+                      );
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.location_pin, color: Colors.red, size: 12),
+                        SizedBox(width: 8),
+                        Text(
+                          "Pick Off",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                        child: Icon(Icons.swap_vert, color: Colors.grey, size: 20),
-                      ),
-                    ],
+                        Spacer(),
+                        Container(
+                          height: 32,
+                          width: 32,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(Icons.swap_vert, color: Colors.grey, size: 20),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 4),
                   Text(
@@ -154,45 +199,6 @@ class RideBookingScreen extends StatelessWidget {
                 icon: Icon(Icons.arrow_back, color: Color(0xFF002144)),
                 onPressed: () {},
               ),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF002144),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: ""),
-        ],
-      ),
-    );
-  }
-}
-
-// Reusable History Tile Widget
-class HistoryTile extends StatelessWidget {
-  final String address;
-
-  HistoryTile({required this.address});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Icon(Icons.location_on, color: Color(0xFF002144), size: 20),
-          SizedBox(width: 8),
-          Text(
-            address,
-            style: TextStyle(
-              color: Color(0xFF002144),
-              fontSize: 14,
             ),
           ),
         ],

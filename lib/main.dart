@@ -1,32 +1,21 @@
-import 'package:cab_booking_app/widgets/addmoneyscreen.dart';
-import 'package:cab_booking_app/widgets/availabletaxiscreen.dart';
-import 'package:cab_booking_app/widgets/bookingscreen.dart';
-import 'package:cab_booking_app/widgets/carddetailscreen.dart';
-import 'package:cab_booking_app/widgets/createpassword_screen.dart';
-import 'package:cab_booking_app/widgets/destinationscreen.dart';
-import 'package:cab_booking_app/widgets/driverfoundscreen.dart';
-import 'package:cab_booking_app/widgets/forgetpassword_screen.dart';
-import 'package:cab_booking_app/widgets/login_screen.dart';
-import 'package:cab_booking_app/widgets/map_screen.dart';
-import 'package:cab_booking_app/widgets/myaccountscreen.dart';
-import 'package:cab_booking_app/widgets/mybookingoage.dart';
-import 'package:cab_booking_app/widgets/notificationscreen.dart';
-import 'package:cab_booking_app/widgets/passwordchange_screen.dart';
-import 'package:cab_booking_app/widgets/paymentdone_screen.dart';
-import 'package:cab_booking_app/widgets/paymentmethod.dart';
-import 'package:cab_booking_app/widgets/peoplenamescren.dart';
-import 'package:cab_booking_app/widgets/promocode_screen.dart';
-import 'package:cab_booking_app/widgets/ridingbook_screen.dart';
-import 'package:cab_booking_app/widgets/setdestination_screen.dart';
-import 'package:cab_booking_app/widgets/sign_up_screen.dart';
 import 'package:cab_booking_app/widgets/splash_screen.dart';
-import 'package:cab_booking_app/widgets/verify_email_screen.dart';
-import 'package:cab_booking_app/widgets/walletscreen.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      builder: (context) => const MyApp(),
+      enabled: !kReleaseMode,
+      devices: [
+        ...Devices.ios.all,
+        ...Devices.android.all,
+        ...Devices.windows.all,
+      ],
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -35,16 +24,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-       
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:Riderbook()
-      ,
+      home: SplashScreen(),
     );
   }
 }
-

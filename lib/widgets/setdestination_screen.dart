@@ -1,4 +1,8 @@
+import 'package:cab_booking_app/widgets/destinationscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,15 +18,54 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SetDestinationScreen extends StatelessWidget {
+class SetDestinationScreen extends StatefulWidget {
+  @override
+  _SetDestinationScreenState createState() => _SetDestinationScreenState();
+}
+
+class _SetDestinationScreenState extends State<SetDestinationScreen> {
+  final MapController _mapController = MapController();
+  List<Marker> _markers = [];
+
+  void _onMapTap(TapPosition tapPosition, LatLng point) {
+    setState(() {
+      _markers.add(
+        Marker(
+          width: 80.0,
+          height: 80.0,
+          point: point,
+          child: Icon(
+            Icons.location_on,
+            color: Colors.red,
+            size: 40,
+          ),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Map background
-          Container(
-            color: Colors.grey[300], // Replace this with your map widget
+          // Map Widget
+          FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+              initialCenter: LatLng(18.559004, 73.786766), // Set your initial location
+              initialZoom: 13.0,
+              onTap: _onMapTap,
+            ),
+            children: [
+              TileLayer(
+                urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                userAgentPackageName: 'com.example.map_sample',
+              ),
+              MarkerLayer(
+                markers: _markers,
+              ),
+            ],
           ),
           // Top bar with address and back/close buttons
           Positioned(
@@ -85,6 +128,7 @@ class SetDestinationScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         // Handle Set Destination action
+                        Get.to(() => Destinationscreen());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF002144),

@@ -1,4 +1,8 @@
+import 'package:cab_booking_app/widgets/callscreen.dart';
+import 'package:cab_booking_app/widgets/cancel_ride_screen.dart';
+import 'package:cab_booking_app/widgets/chatscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(DriverFoundApp());
@@ -133,14 +137,14 @@ class _DriverFoundScreenState extends State<DriverFoundScreen> {
                       // Call Button
                       IconButton(
                         onPressed: () {
-                          // Handle call action
+                          Get.to(()=>CallScreen());
                         },
                         icon: Icon(Icons.call, color: Color(0xFF002144)),
                       ),
                       // Message Button
                       IconButton(
                         onPressed: () {
-                          // Handle message action
+                          Get.to(()=>ChatScreen());
                         },
                         icon: Icon(Icons.message, color: Color(0xFF002144)),
                       ),
@@ -150,9 +154,9 @@ class _DriverFoundScreenState extends State<DriverFoundScreen> {
                   // Cancel Ride Button
                   ElevatedButton(
                     onPressed: () {
-                      // Handle Cancel Ride logic
+                      Get.to(()=>CancelRideScreen());
                     },
-                    child: Text("Cancel Ride"),
+                    child: Text("Cancel Ride",style: TextStyle(color: Colors.white),),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF002144),
                       minimumSize: Size(double.infinity, 50),

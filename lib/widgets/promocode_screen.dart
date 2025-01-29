@@ -1,4 +1,6 @@
+import 'package:cab_booking_app/widgets/paymentmethod.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(PromoCodeApp());
@@ -96,7 +98,7 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // Handle Apply Promo logic
+             Get.to(()=>PaymentMethodApp());
               },
               child: Text("Apply Promocode",style: TextStyle(color: Colors.white),),
               style: ElevatedButton.styleFrom(

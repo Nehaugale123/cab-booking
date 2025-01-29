@@ -1,136 +1,85 @@
+import 'package:cab_booking_app/widgets/HomeScreen.dart';
+import 'package:cab_booking_app/widgets/bookingscreen.dart';
 import 'package:cab_booking_app/widgets/myaccountscreen.dart';
+import 'package:cab_booking_app/widgets/ridingbook_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// Import MyAccountScreen
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
-
   @override
   _MapScreenState createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
-  int _currentIndex = 1; // Set to 1 since Map is the current screen
+  int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    Center(child: Text('Home Screen')), // Replace with your actual Home screen
-    MapScreenContent(),
+  // List of screens for bottom navigation
+  final List<Widget> _pages = [
+    MapScreen (),
+    RideBookingScreen(),
+    BookingScreen(),
     MyAccountScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex], // Display the selected screen
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index; // Update the selected index
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+      body: _pages[_currentIndex], // Display the current screen
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          height: 70,
+          decoration: BoxDecoration(
+            color: Color(0xFF002144),
+            borderRadius: BorderRadius.circular(35),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildNavItem(Icons.home, "Home", 0),
+              _buildNavItem(Icons.directions_car, "Rides", 1),
+              _buildNavItem(Icons.book, "Bookings", 2),
+              _buildNavItem(Icons.person, "Profile", 3),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+        ),
       ),
     );
   }
-}
 
-class MapScreenContent extends StatelessWidget {
-  const MapScreenContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Google Map
-        GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(23.0225, 72.5714), // Replace with the desired location
-            zoom: 14,
-          ),
-          myLocationEnabled: true,
-          myLocationButtonEnabled: false,
-        ),
-        // Top Profile Icon
-        Positioned(
-          top: 40,
-          left: 20,
-          child: CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage('assets/profile.jpg'), // Replace with your asset
-          ),
-        ),
-        // Bottom Container
-        Positioned(
-          bottom: 20,
-          left: 20,
-          right: 20,
-          child: Container(
-            padding: EdgeInsets.all(16),
+  // Helper method to build navigation items
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 45,
+            width: 45,
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                ),
-              ],
+              shape: BoxShape.circle,
+              color: _currentIndex == index ? Colors.white : Color(0xFF002144),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.my_location, color: Colors.blue),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Current Location",
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  children: [
-                    Icon(Icons.location_on, color: Colors.red),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Choose Destination",
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            child: Icon(
+              icon,
+              color: _currentIndex == index ? Color(0xFF002144) : Colors.white,
             ),
           ),
-        ),
-      ],
+          SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

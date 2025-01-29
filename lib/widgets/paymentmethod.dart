@@ -1,4 +1,6 @@
+import 'package:cab_booking_app/widgets/carddetailscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(PaymentMethodApp());
@@ -87,7 +89,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle Process Payment logic
+                Get.to(()=>CardDetailsScreen());
               },
               child: Text("Process Payment",style: TextStyle(color: Colors.white),),
               style: ElevatedButton.styleFrom(

@@ -1,4 +1,6 @@
+import 'package:cab_booking_app/widgets/paymentdone_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(CardDetailsApp());
@@ -115,7 +117,7 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
             // Confirm Payment Button
             ElevatedButton(
               onPressed: () {
-                // Handle Confirm Payment logic
+                Get.to(()=>PaymentDoneScreen());
               },
               child: Text("Confirm Payment",style: TextStyle(color: Colors.white),),
               style: ElevatedButton.styleFrom(

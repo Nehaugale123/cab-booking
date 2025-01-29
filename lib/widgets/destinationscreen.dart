@@ -1,4 +1,6 @@
+import 'package:cab_booking_app/widgets/availabletaxiscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Destinationscreen extends StatelessWidget {
@@ -47,14 +49,16 @@ class Destinationscreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 16),
               ),
               onPressed: () {
-                // Add functionality
+               Get.to(()=>AvailableTaxisScreen());
               },
-              child: Text(
-                "Find Taxi",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+              
+                child: Text(
+                  "Find Taxi",
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
               ),
             ),
-          ),
+          
         ],
       ),
     );
